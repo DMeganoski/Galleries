@@ -1,0 +1,67 @@
+/*
+    Document   : dashboard
+    Created on : Oct 23, 2011, 4:47:19 PM
+    Author     : ZodiacDM
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root {
+    display: block;
+}
+body#galleries_settings_managecategories .Aside {
+	position: absolute;
+	right: 0px;
+}
+ol.Classes {
+	margin-right: 240px;
+	padding: 0;
+	list-style-type: none;
+}
+.Classes li {
+	background: whitesmoke;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+table.GalleryClass,
+table.Categories {
+	width: 100%;
+}
+table.GalleryClass {
+	border: 1px solid #A5D0E7;
+	border-right: none;
+	border-left: none;
+	margin: 0;
+}
+table.Categories {
+	border: 1px solid #E0E0E0;
+	margin: 0 0 0 20px;
+}
+table.GalleryClass td,
+table.Categories td{
+	padding: 0px;
+}
+table.GalleryClass th,
+table.Categories th {
+	padding: 0px;
+}
+#Content table.Categories h1,
+#Content table.Categories h3,
+#Content table.GalleryClass h1,
+#Content table.GalleryClass h3{
+	background: white;
+	border-color: #CCC;
+}
+table.GalleryClass a {
+	float: right;
+	margin-left: 10px;
+}
+table.GalleryClass div.CategoryButtons {
+	float: right;
+}
