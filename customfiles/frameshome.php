@@ -4,27 +4,28 @@ $Items = $this->GalleryItemModel->GetWhere(array('ClassLabel' => GalleryControll
 
 ?><div id="Custom">
    <div class="PageHeading">
-      <h1>Choose your tin color below</h1>
+      <h1>Choose your frame below</h1>
    </div>
 <?php
-    ?><div class="Home Gallery Tins">
+    ?><div id="Choices" class="Home Gallery Tins">
+		<ul class="Gallery">
         <?php
         foreach ($Items as $Item) {
 				$Name = $Item->Name;
 				$Slug = $Item->Slug;
-            echo '<div'.($Sender->RequestMethod == '' ? ' class="Image Category Tins"' : '').'>';
-	    echo '<img src="'.$this->PublicDir.GalleryController::$Class.DS.$Slug.'M.jpg" class="Gallery Category Tins"></img>';
-	    echo '<table>';
+		echo '<li><a href="/item/'.$Slug.'" class="ItemPage" title="'.$Name.' Frame">';
+	    echo '<img src="'.$this->PublicDir.GalleryController::$Class.DS.$Slug.'L.jpg" class="Gallery Frames"></img>';
+	    echo '</a>';
+		echo '<table class="GalleryInfo">';
 	    echo '<tr>';
-	    echo '<th>'.T($Name).' Finish</th>';
-	    echo '</tr>';
-	    echo '<tr>';
-	    echo '<td class="Select"><a href="/project/select/base/'.$Slug.'" class="TinSelect BigButton">Select This Color Tin</button></td>';
+	    echo '<th>'.T($Name).' Frame</th>';
 	    echo '</tr>';
 	    echo '</table>';
-	    echo '</div>';
+		echo '<a href="/project/select/frame/'.$Slug.'" class="FrameSelect BigButton" itemtype="frame" itemslug="'.$Slug.'">Select This Frame</a>';
+	    echo '</li>';
         }?>
-       <div class="PriceLink">
+       </ul>
+		<div class="PriceLink">
 	  <a href="/gallery/default/pricing" class="BigButton">Price Guide</a>
        </div>
     </div>

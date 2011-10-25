@@ -55,8 +55,8 @@ class GalleryController extends GalleriesController {
 		$this->AddCssFile('gallery.css');
 		$this->AddCssFile('gallerycustom.css');
 
-		$this->AddJsFile('jquery.qtip.js');
-		$this->AddCssFile('jquery.qtip.css');
+		$this->AddJsFile('jquery.lightbox-0.5.pack.js');
+		$this->AddCssFile('jquery.lightbox-0.5.css');
 
 		$this->AddJsFile('gallery.js');
 		$this->AddJsFile('gallerycustom.js');
@@ -71,6 +71,8 @@ class GalleryController extends GalleriesController {
 
 		$this->AddCssFile('fileupload.css');
 		$this->AddJsFile('fileupload.js');
+
+		$this->AddJsFile('/applications/projects/js/projectsshared.js');
 
 		if (C('Galleries.ShowFireEvents'))
 			$this->DisplayFireEvent('AfterGalleryPrepare');
@@ -134,17 +136,20 @@ class GalleryController extends GalleriesController {
 
 						// verify category return false
 						} else {
-							$this->NotFound();
+							self::$Class = 'notfound';
+							$this->View = 'notfound';
 						}
                      } else { // category was not requested
-                            self::$Category = 'home';
-							$this->Title(T($Class));
+						self::$Category = 'home';
+						$this->Title(T($Class));
                      }
 				} else { // verify class return false
-					$this->NotFound();
+					self::$Class = 'notverified';
+					$this->View = 'notverified';
 				}
 			} else { // file does not exist
-				$this->NotFound();
+				self::$Class = 'notfound';
+				$this->View = 'notfound';
 			}
 		} else {
 			self::$Class = 'gettingstarted';

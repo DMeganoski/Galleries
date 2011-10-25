@@ -12,8 +12,6 @@ class SettingsController extends Gdn_Controller {
    public $Uses = array('Database', 'Form', 'GalleryCategoryModel', 'GalleryClassModel');
 
    public function PrepareController() {
-	   $this->AddCssFile('gallery.css');
-	   $this->AddJsFile('gallery.js');
 	   $this->AddCssFile('dashboard.css');
 	   $this->AddJsFile('dashboard.js');
    }

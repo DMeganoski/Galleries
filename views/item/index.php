@@ -1,8 +1,6 @@
 <?php if (!defined('APPLICATION')) exit();
 // This is the single Item page
 include (PATH_APPLICATIONS.DS.'galleries/views/helper/helper.php');
-//echo $Sender->Form->Open();
-//echo $Sender->Form->Errors();
 $FileInfo = $this->FileData;
 
 ?>
@@ -19,7 +17,7 @@ $FileInfo = $this->FileData;
 			<div class="Verify"></div>
 			<div class="ButtonBox">
 				<center>
-				<button type="button" name="pjSubmit" id="pjSubmit" onclick="" class="Selection Button">Use this in your current project</button>
+				<a href="/project/select/background/'.$Slug.'" class="BackgroundSelect BigButton"  itemtype="<? echo $FileInfo->ClassLabel ?>" itemslug="<? echo $FileInfo->Slug ?>" itemtype="<? ItemController::$SelectedClass ?>">Select This Background</a>
 				<button type="button" name="pjSubmitNew" id="pjSubmitNew" onclick="" class="NewSelection Button">Use this in a new project</button><?
 				if (CheckPermission('Gallery.Items.Manage')) {
 					?><button onclick="window.location = '/item/edit/<? echo $FileInfo->Slug ?>'" class="NonTab Button">Edit</button><?
@@ -33,9 +31,8 @@ $FileInfo = $this->FileData;
 
 		<div class="DetailsWrapper">
 			<?php
-		echo '<div id="ImageWrapper" itemtype="'.$FileInfo->ClassLabel.'" itemslug="'.$FileInfo->Slug.'">';
-		echo '<div id="FrameWrapper"></div>';
-		echo '<img src="'.$PublicDir.$FileInfo->ClassLabel.DS.$FileInfo->Slug.'L.jpg" class="Single"></img>';
+		echo '<div id="ImageWrapper">';
+		echo '<img src="'.$this->PublicDir.$FileInfo->ClassLabel.DS.$FileInfo->Slug.'L.jpg" class="Single"></img>';
 		echo '</div>';
 		include(PATH_APPLICATIONS.DS.'galleries/customfiles/detailedinfo.php');
 		?>
@@ -47,10 +44,8 @@ $FileInfo = $this->FileData;
 
 	$this->FireEvent('AfterItemDetails');
 $FileInfo = $this->FileData;
-if (ItemController::$SelectedClass == 'backgrounds') { ?>
-	<div class="Heading">
-		<h1>Preview Frame Options</h1>
-	</div>
+if (ItemController::$SelectedClass == 'backgrounds') {
+	 /*
 	<div>
 		<ul id="Frames">
 			<li id="Click" class="Button None Active" type="None">No Frame</li>
@@ -61,8 +56,8 @@ if (ItemController::$SelectedClass == 'backgrounds') { ?>
 			<li id="Click" class="Button Wood" type="Wood">Wood Frame</li>
 			<li id="Click" class="Button GoldLeaf" type="GoldLeaf">Gold Leaf Frame</li>
 		</ul>
-		<?php
-		echo '</div>';
+
+		echo '</div>'; */
 } else {
 
 }

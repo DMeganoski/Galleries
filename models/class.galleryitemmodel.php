@@ -78,15 +78,15 @@ class GalleryItemModel extends Gdn_Model {
 		return $Result;
 	}
 
-	public function GetDirectory($GetClass) {
+	public function GetDirectory($GetClass = '') {
         $Files = array();
         $Directory = PATH_UPLOADS.DS.'item'.DS;
 		$GalleryClassModel = new GalleryClassModel();
-        if (!$GalleryClassModel->VerifyClass($GetClass)) {
+        if ($GetClass == '') {
             $Classes = $GalleryClassModel->GetClasses();
             foreach ($Classes as $Class) {
                 $ClassName = $Class->ClassLabel;
-                $Files = scandir($Directory.$ClassName);
+                array_merge($Files, scandir($Directory.$ClassName));
             }
         } else {
             $Files = scandir($Directory.$GetClass);
@@ -94,7 +94,7 @@ class GalleryItemModel extends Gdn_Model {
         return $Files;
     }
 
-    public function GetFilesInfo($GetClass, $Category = 'home') {
+    public function GetFilesInfo($GetClass) {
 		$Files = $this->GetDirectory($GetClass);
 
         foreach ($Files as $FileName) {
@@ -105,6 +105,7 @@ class GalleryItemModel extends Gdn_Model {
 					$AllFiles[] = $Item;
 			}
 		}
+	/*
     $SortArray = array();
     foreach ($AllFiles as $FileName) {
         foreach ($FileName as $Key => $Value) {
@@ -117,6 +118,7 @@ class GalleryItemModel extends Gdn_Model {
     $OrderBy = "ItemID"; //change this to whatever key you want from the array
 
     array_multisort($SortArray[$OrderBy],SORT_ASC,$AllFiles);
+	 */
     return $AllFiles;
     }
 
@@ -131,7 +133,10 @@ class GalleryItemModel extends Gdn_Model {
 					}
 					if (strlen($FileName) > 11) {
 						if (substr($FileName, 6, 1) == 'X') {
-							$Item['Name'] = trim(trim(substr($FileName, 10), '.jpg'), '.png');
+							if(substr($FileName, -4) == '.jpg')
+								$Item['Name'] = trim(substr($FileName, 10), '.jpg');
+							else
+								$Item['Name'] = trim(substr($FileName, 10), '.png');
 							$Item['Large'] = $FileName;
 						}
 					} else {

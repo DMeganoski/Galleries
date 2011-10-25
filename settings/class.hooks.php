@@ -98,10 +98,6 @@ class GalleriesHooks implements Gdn_IPlugin {
 	if ($Sender->Menu)
 		$Sender->Menu->AddLink('Browse', T('Browse'), '/gallery', FALSE, array('class' => 'Browse', 'Standard' => TRUE));
 
-	if ($Sender->Head) {
-		$Sender->AddJsFile('/applications/galleries/js/gallery.js');
-		$Sender->AddCssFile('/applications/galleries/design/gallery.css');
-   }
 
         $Controller = $Sender->ControllerName;
         $Session = Gdn::Session();

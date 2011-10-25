@@ -14,6 +14,8 @@ class ItemController extends GalleriesController {
 
 	public static $SelectedSlug;
 
+	public $PublicDir = '/uploads/item/';
+
 	public function Initialize() {
 		parent::Initialize();
 
@@ -25,8 +27,6 @@ class ItemController extends GalleriesController {
 			$this->AddJsFile('jquery.popup.js');
 			$this->AddJsFile('jquery.gardenhandleajaxform.js');
 			$this->AddJsFile('global.js');
-
-			$this->AddJsFile('jquery.ui.packed.js');
 
 			$this->AddJsFile('/applications/projects/js/projectbox.js');
 			$this->AddCssFile('/applications/projects/design/projectbox.css');
@@ -41,19 +41,19 @@ class ItemController extends GalleriesController {
 	 * Adds css and js files common for all views
 	 */
 	public function PrepareController() {
-		$this->AddJsFile('jquery.qtip.js');
-		$this->AddCssFile('jquery.qtip.css');
+		//$this->AddJsFile('jquery.qtip.js');
+		//$this->AddCssFile('jquery.qtip.css');
 
 		$this->AddJsFile('jquery-ui-1.8.15.custom.min.js');
 		$this->AddCssFile('jquery-ui-1.8.15.custom.css');
-
-
 
 		$this->AddJsFile('gallery.js');
 		$this->AddJsFile('loader.js');
 		$this->AddCssFile('gallery.css');
 		$this->AddCssFile('styles.css');
 		$this->AddJsFile('jquery.event.drag.js');
+		$this->AddJsFile('/applications/projects/js/projectsshared.js');
+		$this->AddJsFile('jquery.lightbox-0.5.pack.js');
 
         //$GalleryHeadModule->GetData();
 
@@ -228,9 +228,16 @@ class ItemController extends GalleriesController {
             foreach($ReturnedFiles as $FileInfo) {
 				$FileInfo['ClassLabel'] = $Label;
 
-				$Large = self::ImageResize($Path.$Label.DS.$FileInfo['FileName'], $Path.$Label.DS.$FileInfo['Slug'].'L.jpg', 300, 300, 0);
-				$Medium = self::ImageResize($Path.$Label.DS.$FileInfo['FileName'], $Path.$Label.DS.$FileInfo['Slug'].'M.jpg', 150, 150, 0);
-				$Small = self::ImageResize($Path.$Label.DS.$FileInfo['FileName'], $Path.$Label.DS.$FileInfo['Slug'].'S.jpg', 100, 100, 0);
+				$LargeFile = $Path.$Label.DS.$FileInfo['Slug'].'L.jpg';
+				if(!file_exists($LargeFile))
+					$Large = self::ImageResize($Path.$Label.DS.$FileInfo['FileName'], $LargeFile, 300, 300, 0);
+				$MediumFile = $Path.$Label.DS.$FileInfo['Slug'].'M.jpg';
+				if(!file_exists($MediumFile))
+					$Medium = self::ImageResize($Path.$Label.DS.$FileInfo['FileName'], $MediumFile, 150, 150, 0);
+				$SmallFile = $Path.$Label.DS.$FileInfo['Slug'].'S.jpg';
+				if(!file_exists($SmallFile))
+					$Small = self::ImageResize($Path.$Label.DS.$FileInfo['FileName'], $SmallFile, 100, 100, 0);
+
 				$this->PutFile($FileInfo);
 				}
 	    }

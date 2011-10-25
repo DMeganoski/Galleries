@@ -14,21 +14,7 @@ $(document).ready(function() {
 	});
 
 /*--------------------------------- Functions -----------------------------------*/
-/*--------------------------------- QTips ---------------------------------------*/
-	/*$('.Icon').qtip({  For links containing no text
-		content: {
-			text: function(api) {
-				return $(this).attr('title');
-			}
-		},
-		position: {
-		  my: 'top center',  where to put tooltip in relation to the object
-		  at: 'bottom center'  where to put object in relation to the tooltip
-		},
-		style: {
-			classes: 'ui-tooltip-light ui-tooltip-shadow'
-		}
-	}); */
+
 
 	$("li.Image").hover(function() {
 		$(this).css({'z-index' : '10'}); /*Add a higher z-index value so this image stays on top*/
@@ -48,27 +34,19 @@ $(document).ready(function() {
 			height: '120px' /* Set height back to default */
 		}, 400);
 	});
-	//$("li.Navigation ul").hide('200');
-	/*$('li.Image img').qtip({
-	content: {
-		text: function(api) {
-			// Retrieve content from custom attribute of the $('li.Image img') elements.
-			return $(this).attr('content');
-		},
-		title: {
-			text: 'Image Info',
-			button: 'Close'
-		}
-	},
-	position: {
-		  my: 'bottom center',
-		  at: 'top center'
-	},
-	style: {
-    classes: 'ui-tooltip-light ui-tooltip-shadow'
-   }
+	$('#Choices a.ItemPage').each(function(index) {
+		imgSrc = $(this).find('img.Gallery').attr('src');
+		$(this).attr('href', imgSrc);
+	});
+	$('#Choices a.ItemPage').lightBox({
+		fixedNavigation:true,
+		imageLoading:"/applications/galleries/design/images/lightbox-ico-loading.gif",
+		imageBtnClose:"/applications/galleries/design/images/lightbox-btn-close.gif",
+		imageBtnPrev:"/applications/galleries/design/images/lightbox-btn-prev.gif",
+		imageBtnNext:"/applications/galleries/design/images/lightbox-btn-next.gif",
+		imageBlank:"/applications/galleries/design/images/lightbox-blank.gif"
 
-});*/
+	});
 
 });
 

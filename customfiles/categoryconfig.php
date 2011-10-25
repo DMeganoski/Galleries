@@ -12,7 +12,7 @@ $SQL->Replace('GalleryClass', array('ClassLabel' => 'bases', 'HasCategories' => 
 $SQL->Replace('GalleryClass', array('ClassLabel' => 'backgrounds', 'HasCategories' => 0, 'HasCategories' => 1, 'Visible' => '1'),
         array('ClassKey' => 2), TRUE);
 $SQL->Replace('GalleryClass', array('ClassLabel' => 'frames', 'HasCategories' => 0, 'HasCategories' => 0, 'Visible' => '1'),
-        array('ClassKey' => 2), TRUE);
+        array('ClassKey' => 3), TRUE);
 
 
 /*/*-------------------------------- Configure Categories -----------------------------------------*/
