@@ -483,67 +483,77 @@ class ItemController extends GalleriesController {
 	   echo '<div class="FireEvent">FireEvent: '.$Controller.':'.$EventName.'</div>';
    }
 
+   /**
+    * Function for resizing an image via gd
+    * @param type $src String, The full path of the source image
+    * @param type $dst String, The full path of the destination image
+    * @param type $width Integer, The desired new width
+    * @param type $height Integer, The desired new height
+    * @param type $crop 1/0 Boolean, If false resizes entire image, if true crops image.
+    * @return string the new image file
+    */
 	public static function ImageResize($src, $dst, $width, $height, $crop=0){
 
+		// Set time and memory limit, as large source files can cause this to timeout
 		set_time_limit(360);
 		ini_set("memory_limit","256M");
 
-	if(!file_exists($src)) $Return = 0;
-	if(!list($w, $h) = getimagesize($src)) $Return = 2;
+		if(!file_exists($src)) $Return = 0;
+		if(!list($w, $h) = getimagesize($src)) $Return = 2;
 
-	$fileParts = pathinfo($src);
-	$type = strtolower($fileParts['extension']);
-	if($type == 'jpeg') $type = 'jpg';
-	switch($type){
-		case 'bmp': $img = imagecreatefromwbmp($src);
-			$Return = 1;
-			break;
-		case 'gif': $img = imagecreatefromgif($src);
-			$Return = 1;
-			break;
-		case 'jpg': $img = imagecreatefromjpeg($src);
-			$Return = 1;
-			break;
-		case 'png': $img = imagecreatefrompng($src);
-			$Return = 1;
-			break;
-		default : return $type;
-	}
+		$fileParts = pathinfo($src);
+		$type = strtolower($fileParts['extension']);
+		if($type == 'jpeg') $type = 'jpg';
+		switch($type){
+			case 'bmp': $img = imagecreatefromwbmp($src);
+				$Return = 1;
+				break;
+			case 'gif': $img = imagecreatefromgif($src);
+				$Return = 1;
+				break;
+			case 'jpg': $img = imagecreatefromjpeg($src);
+				$Return = 1;
+				break;
+			case 'png': $img = imagecreatefrompng($src);
+				$Return = 1;
+				break;
+			default : return $type;
+		}
 
-	// resize
-	if($crop){
-		if($w < $width or $h < $height) return "Picture is too small!";
-		$ratio = max($width/$w, $height/$h);
-		$h = $height / $ratio;
-		$x = ($w - $width / $ratio) / 2;
-		$w = $width / $ratio;
-	}
-	else{
-		if($w < $width and $h < $height) return "Picture is too small!";
-		$ratio = min($width/$w, $height/$h);
-		$width = $w * $ratio;
-		$height = $h * $ratio;
-		$x = 0;
-	}
+		// resize
+		if($crop){
+			if($w < $width or $h < $height) return "Picture is too small!";
+			$ratio = max($width/$w, $height/$h);
+			$h = $height / $ratio;
+			$x = ($w - $width / $ratio) / 2;
+			$w = $width / $ratio;
+		}
+		else{
+			if($w < $width and $h < $height) return "Picture is too small!";
+			$ratio = min($width/$w, $height/$h);
+			$width = $w * $ratio;
+			$height = $h * $ratio;
+			$x = 0;
+		}
 
-	$new = imagecreatetruecolor($width, $height);
+		$new = imagecreatetruecolor($width, $height);
 
-	// preserve transparency
-	if($type == "gif" or $type == "png"){
-		imagecolortransparent($new, imagecolorallocatealpha($new, 0, 0, 0, 127));
-		imagealphablending($new, false);
-		imagesavealpha($new, true);
-	}
+		// preserve transparency
+		if($type == "gif" or $type == "png"){
+			imagecolortransparent($new, imagecolorallocatealpha($new, 0, 0, 0, 127));
+			imagealphablending($new, false);
+			imagesavealpha($new, true);
+		}
 
-	imagecopyresampled($new, $img, 0, 0, $x, 0, $width, $height, $w, $h);
+		imagecopyresampled($new, $img, 0, 0, $x, 0, $width, $height, $w, $h);
 
-	switch($type){
-		case 'bmp': imagewbmp($new, $dst); break;
-		case 'gif': imagegif($new, $dst); break;
-		case 'jpg': imagejpeg($new, $dst); break;
-		case 'png': imagepng($new, $dst); break;
-	}
-	return $new;
+		switch($type){
+			case 'bmp': imagewbmp($new, $dst); break;
+			case 'gif': imagegif($new, $dst); break;
+			case 'jpg': imagejpeg($new, $dst); break;
+			case 'png': imagepng($new, $dst); break;
+		}
+		return $new;
 	}
 
 	/*

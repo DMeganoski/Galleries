@@ -50,8 +50,6 @@ class GalleryController extends GalleriesController {
     */
 
 	public function PrepareController() {
-		$this->AddModule("GalleryHeadModule");
-
 		$this->AddCssFile('gallery.css');
 		$this->AddCssFile('gallerycustom.css');
 
@@ -66,8 +64,6 @@ class GalleryController extends GalleriesController {
 
 		$this->AddJsFile('/applications/projects/js/projectbox.js');
 			$this->AddCssFile('/applications/projects/design/projectbox.css');
-
-		$this->AddModule('GallerySideModule');
 
 		$this->AddCssFile('fileupload.css');
 		$this->AddJsFile('fileupload.js');

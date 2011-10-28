@@ -27,7 +27,7 @@
 			$HTML .= $File->Description;
 			$HTML .= '<br/>';
 			$HTML .= '<button type="button" class="UploadDelete Button" id="Delete" uploadid="'.$File->UploadKey.'">Delete Image</button>';
-			$HTML .= '<button type="button" class="UploadSubmit Button" id="Upload" uploadid="'.$File->UploadKey.'">Add to Project</button>';
+			$HTML .= '<button type="button" class="ProjectInclude Button" id="Upload" uploadid="'.$File->UploadKey.'">Add to Project</button>';
 			$HTML .= '<div class="ClearFix"></div>';
 			$HTML .= '</li>';
 

@@ -21,8 +21,7 @@ $Items = $this->GalleryItemModel->GetWhere(array('ClassLabel' => GalleryControll
 	    echo '<th>'.T($Name).' Frame</th>';
 	    echo '</tr>';
 	    echo '</table>';
-		echo '<a href="/project/select/frame/'.$Slug.'" class="FrameSelect BigButton" itemtype="frame" itemslug="'.$Slug.'">Select This Frame</a>';
-	    echo '</li>';
+		echo '<a href="/project/select/base/'.$Slug.'" class="ProjectSelect BigButton" itemslug="'.$Slug.'" itemtype="'.GalleryController::$Class.'">Select This '.T($Item->ClassLabel).'</a>';	    echo '</li>';
         }?>
        </ul>
 		<div class="PriceLink">

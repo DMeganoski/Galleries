@@ -89,10 +89,6 @@ class GalleriesHooks implements Gdn_IPlugin {
       $this->_EnabledApplication = ArrayValue('EnabledApplication', $Sender->EventArguments, 'Galleries'); // Defaults to "Vanilla"
    }
 
-   private function _EnabledApplication() {
-      return $this->_EnabledApplication;
-   }
-
    public function Base_Render_Before(&$Sender) {
 
 	if ($Sender->Menu)
@@ -103,25 +99,25 @@ class GalleriesHooks implements Gdn_IPlugin {
         $Session = Gdn::Session();
         //$Hide=Gdn::Config('GalleryModule.Hide', TRUE);
 
-	//if($Hide && !$Session->IsValid())	return;
-		$GalleryHeadModule = new GalleryHeadModule($Sender);
-        //$GalleryHeadModule->GetData();
-		$GallerySideModule = new GallerySideModule($Sender);
-        if ($Controller == "gallerycontroller") {
-	    $Sender->MasterView = 'default';
-	    //$Menu = $Sender->EventArguments['sidemenu'];
-	    //$Menu->ClearGroups;
+		//if($Hide && !$Session->IsValid())	return;
+		if(in_array($Sender->ControllerName, array(
+			'gallerycontroller',
+			'itemcontroller',
+			'projectcontroller',
+			'designcontroller'
+			))) {
+
             include_once(PATH_APPLICATIONS.DS.'galleries'.DS.'modules'.DS.'class.galleryheadmodule.php');
             include_once(PATH_APPLICATIONS.DS.'galleries'.DS.'modules'.DS.'class.gallerysidemodule.php');
-
-            //$this->AddModule($GalleryHeadModule);
-            //$this->AddModule($GallerySideModule);
+            include_once(PATH_APPLICATIONS.DS.'galleries'.DS.'modules'.DS.'class.gallerysidemodule.php');
+			$GuestModule = new GuestModule($Sender);
+			$GalleryHeadModule = new GalleryHeadModule($Sender);
+			$GallerySideModule = new GallerySideModule($Sender);
+			$Sender->AddModule($GuestModule);
+			$Sender->AddModule($GalleryHeadModule);
+            $Sender->AddModule($GallerySideModule);
             $Session = Gdn::Session();
-            //$Limit = Gdn::Config('GalleriesHeadModule.Limit', 6);
-            //if (!is_numeric($Limit))
-                //$Limit = 6;
 
-            //$Sender->AddDefinition('GalleriesModuleLimit', $Limit);
         }
         /*
 		if(in_array($Sender->ControllerName, array('projectcontroller', 'designercontroller', 'gallerycontroller','categoriescontroller', 'profilecontroller', 'discussioncontroller', 'discussionscontroller'))) {

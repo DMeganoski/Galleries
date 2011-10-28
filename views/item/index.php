@@ -7,18 +7,13 @@ $FileInfo = $this->FileData;
 <div id="Custom">
 	<div class="Large Picture">
 		<div class="Heading">
-			<h1><?php echo $FileInfo->Name.' ('.$FileInfo->Slug.')'; ?></h1><?
-			if (ItemController::$SelectedClass == 'backgrounds') {
-				?><h2>You choose a frame if you like, then drag the image to your project box</h2><?
-			} else {
-				?><h2>The Image of the product is draggable. You can drag the item to your project box.</h2><?
-			}
-		?></div>
+			<h1><?php echo $FileInfo->Name.' ('.$FileInfo->Slug.')'; ?></h1>
+			<h2>Click the button below to add this <? echo T(substr($FileInfo->ClassLabel, 0, -1))?> to your project</h2>
+		</div>
 			<div class="Verify"></div>
-			<div class="ButtonBox">
+			<div class="ButtonWrapper">
 				<center>
-				<a href="/project/select/background/'.$Slug.'" class="BackgroundSelect BigButton"  itemtype="<? echo $FileInfo->ClassLabel ?>" itemslug="<? echo $FileInfo->Slug ?>" itemtype="<? ItemController::$SelectedClass ?>">Select This Background</a>
-				<button type="button" name="pjSubmitNew" id="pjSubmitNew" onclick="" class="NewSelection Button">Use this in a new project</button><?
+				<a href="/project/select/background/'.$Slug.'" class="ProjectSelect BigButton"  itemtype="<? echo $FileInfo->ClassLabel ?>" itemslug="<? echo $FileInfo->Slug ?>">Select This Background</a><?
 				if (CheckPermission('Gallery.Items.Manage')) {
 					?><button onclick="window.location = '/item/edit/<? echo $FileInfo->Slug ?>'" class="NonTab Button">Edit</button><?
 				}
