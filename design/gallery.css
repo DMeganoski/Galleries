@@ -165,12 +165,13 @@ div.Gallery div.Image {
 }
 div#Custom #Choices li {
 	padding: 10px;
+	overflow: hidden;
 }
 #Choices img {
-	height: 50%;
+	float: left;
 }
-#Choices img.hover {
-
+#Choices .BigButton {
+	float: right;
 }
 #Choices table {
    width: 400px;

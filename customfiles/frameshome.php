@@ -4,7 +4,7 @@ $Items = $this->GalleryItemModel->GetWhere(array('ClassLabel' => GalleryControll
 
 ?><div id="Custom">
    <div class="PageHeading">
-      <h1>Choose your frame below</h1>
+      <h1>Pick your choice of border frames below</h1>
    </div>
 <?php
     ?><div id="Choices" class="Home Gallery Tins">
@@ -21,7 +21,7 @@ $Items = $this->GalleryItemModel->GetWhere(array('ClassLabel' => GalleryControll
 	    echo '<th>'.T($Name).' Frame</th>';
 	    echo '</tr>';
 	    echo '</table>';
-		echo '<a href="/project/select/base/'.$Slug.'" class="ProjectSelect BigButton" itemslug="'.$Slug.'" itemtype="'.GalleryController::$Class.'">Select This '.T($Item->ClassLabel).'</a>';	    echo '</li>';
+		echo '<a href="/project/select/base/'.$Slug.'" class="ProjectSelect BigButton" itemslug="'.$Slug.'" itemtype="'.GalleryController::$Class.'">Select This '.T(substr($Item->ClassLabel, -1, 0)).'</a>';	    echo '</li>';
         }?>
        </ul>
 		<div class="PriceLink">

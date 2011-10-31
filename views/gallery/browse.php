@@ -24,51 +24,7 @@ $OffsetLess = $Offset - $Limit;
 $OffsetMore = $Offset + $Limit;
 $Count = $this->Count;
 $PageMax = ceil($Count / $Limit);
-?>
-<script type="text/javascript">
-$(document).ready(function() {
-
-	var dragging = false;
-
-	$(".Project").droppable({
-			"over": function( event, ui ) {
-				$( this )
-					.addClass( "ui-state-highlight" );
-
-					},
-					"drop": function( event, ui ) {
-						var itemType = $(ui.draggable).attr("itemtype");
-						var itemSlug = $(ui.draggable).attr("itemslug");
-						$(this).doFrameSubmit();
-						$(this).doProjectSubmit( itemType, itemSlug );
-						//$(this).doFrameSubmit();
-						$(this).removeClass( "ui-state-highlight" );
-					},
-					"out": function() {
-						$(this).removeClass( "ui-state-highlight" );
-					}
-
-			});
-
-	function browseHelper( src ) {
-		return "<img src=\"" + src + "\" class=\"Helper\"></img>";
-	}
-
-	$("img.Gallery").draggable({"revert": "invalid", "opacity": "0.5", "cursor": 'move',
-			"start": function(event,ui) {
-				dragging = true;
-				//$('.ProjectBox').show()
-				//.updateProjectBox();
-			},
-			"stop": function() {
-				$('img.Helper').hide();
-				dragging = false;
-
-			}
-	});
-	});
-</script>
-<div class="Custom"><?php
+?><div class="Custom"><?php
 if (!is_a($AllFiles, Gdn_DataSet)) {
       echo '<h1>Sorry, no items found</h1></div>';
     } else {
@@ -78,8 +34,7 @@ if (!is_a($AllFiles, Gdn_DataSet)) {
 	 $this->FireEvent('BeforeBrowseView');
 ?>
 	<div class="Heading">
-		<h2>Click an item for more information and options</h2>
-		<p>Or simply drag it to your project box</p>
+		<h2>Click an item below</h2>
 	</div>
 <ul class="Gallery">
     <?php

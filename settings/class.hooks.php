@@ -104,7 +104,7 @@ class GalleriesHooks implements Gdn_IPlugin {
 			'gallerycontroller',
 			'itemcontroller',
 			'projectcontroller',
-			'designcontroller'
+			'designercontroller'
 			))) {
 
             include_once(PATH_APPLICATIONS.DS.'galleries'.DS.'modules'.DS.'class.galleryheadmodule.php');

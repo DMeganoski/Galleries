@@ -158,7 +158,10 @@ class GalleryController extends GalleriesController {
 		if (self::$Category != 'home')
 			$this->View = ('browse');
 		else
-			$this->View = ($Path.DS.self::$Class.'home.php');
+			if ($ClassData->HasCategories != 1)
+				$this->View = ('browsesingle');
+			else
+				$this->View = PATH_APPLICATIONS.DS.'galleries/customfiles/'.self::$Class.'home.php';
 
 		$this->Categories = $this->GetCategories(self::$Class);
 		$ShortCat = substr(self::$Category, 0, 3);

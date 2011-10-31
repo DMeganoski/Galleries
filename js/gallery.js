@@ -34,7 +34,7 @@ $(document).ready(function() {
 			height: '120px' /* Set height back to default */
 		}, 400);
 	});
-	$('#Choices a.ItemPage').each(function(index) {
+	/*$('#Choices a.ItemPage').each(function(index) {
 		imgSrc = $(this).find('img.Gallery').attr('src');
 		$(this).attr('href', imgSrc);
 	});
@@ -47,6 +47,7 @@ $(document).ready(function() {
 		imageBlank:"/applications/galleries/design/images/lightbox-blank.gif"
 
 	});
+	*/
 
 });
 
