@@ -49,31 +49,32 @@ class GalleryController extends GalleriesController {
     * @return void
     */
 
-	public function PrepareController() {
-		$this->AddCssFile('gallery.css');
-		$this->AddCssFile('gallerycustom.css');
+    public function PrepareController() {
 
-		$this->AddJsFile('jquery.lightbox-0.5.pack.js');
-		$this->AddCssFile('jquery.lightbox-0.5.css');
+	$this->AddCssFile('gallery.css');
+	$this->AddCssFile('gallerycustom.css');
 
-		$this->AddJsFile('gallery.js');
-		$this->AddJsFile('gallerycustom.js');
+	$this->AddJsFile('jquery.lightbox-0.5.pack.js');
+	$this->AddCssFile('jquery.lightbox-0.5.css');
 
-		$this->AddJsFile('jquery.ui.packed.js');
-		$this->AddJsFile('jquery.event.drag.js');
+	$this->AddJsFile('gallery.js');
+	$this->AddJsFile('gallerycustom.js');
 
-		$this->AddJsFile('/applications/projects/js/projectbox.js');
-			$this->AddCssFile('/applications/projects/design/projectbox.css');
+	$this->AddJsFile('jquery.ui.packed.js');
+	$this->AddJsFile('jquery.event.drag.js');
 
-		$this->AddCssFile('fileupload.css');
-		$this->AddJsFile('fileupload.js');
+	$this->AddJsFile('/applications/projects/js/projectbox.js');
+	$this->AddCssFile('/applications/projects/design/projectbox.css');
 
-		$this->AddJsFile('/applications/projects/js/projectsshared.js');
+	$this->AddCssFile('fileupload.css');
+	$this->AddJsFile('fileupload.js');
 
-		if (C('Galleries.ShowFireEvents'))
-			$this->DisplayFireEvent('AfterGalleryPrepare');
+	$this->AddJsFile('/applications/projects/js/projectsshared.js');
 
-		$this->FireEvent('AfterGalleryPrepare');
+	if (C('Galleries.ShowFireEvents'))
+	    $this->DisplayFireEvent('AfterGalleryPrepare');
+
+	$this->FireEvent('AfterGalleryPrepare');
    }
 
    /**
@@ -82,30 +83,30 @@ class GalleryController extends GalleriesController {
     * @acess public
     * @param mixed $this->RequestArgs
     */
-	public function Index($Args) {
+    public function Index($Args) {
+        
+	// show dialog for fire event if enabled
+	if (C('Galleries.ShowFireEvents'))
+	$this->DisplayFireEvent('BeforeBrowseRender');
+	$this->FireEvent('BeforeBrowseRender');
 
-		// show dialog for fire event if enabled
-		if (C('Galleries.ShowFireEvents'))
-			$this->DisplayFireEvent('BeforeBrowseRender');
-		$this->FireEvent('BeforeBrowseRender');
+	// Prepare page
+	$this->PrepareController();
 
-		// Prepare page
-		$this->PrepareController();
+	// Get Request Arguments
+	$Class = ArrayValue('0', $this->RequestArgs, '');
+	$Category = ArrayValue('1', $this->RequestArgs, 'home');
+	$Page= ArrayValue('2', $this->RequestArgs, '1');
+	
+	// Set the defaults
+	if (!is_numeric($Page) || $Page < 1)
+	$Page = 1;
+	self::$Page = $Page;
+	$Limit = C('Gallery.Items.PerPage', 16);
+	self::$Limit = $Limit;
+	$Path = PATH_APPLICATIONS.DS.'galleries'.DS.'customfiles';
 
-		// Get Request Arguments
-		$Class = ArrayValue('0', $this->RequestArgs, '');
-		$Category = ArrayValue('1', $this->RequestArgs, 'home');
-		$Page= ArrayValue('2', $this->RequestArgs, '1');
-
-		// Set the defaults
-		if (!is_numeric($Page) || $Page < 1)
-		$Page = 1;
-		self::$Page = $Page;
-		$Limit = C('Gallery.Items.PerPage', 16);
-		self::$Limit = $Limit;
-		$Path = PATH_APPLICATIONS.DS.'galleries'.DS.'customfiles';
-
-		$GalleryItemModel = $this->GalleryItemModel;
+	$GalleryItemModel = $this->GalleryItemModel;
 
 /*----------- Now check the requests for validity and set data ---------------*/
 
@@ -147,13 +148,9 @@ class GalleryController extends GalleriesController {
 				self::$Class = 'notfound';
 				$this->View = 'notfound';
 			}
-		} else {
-			self::$Class = 'gettingstarted';
-            $Class = 'gettingstarted';
-			self::$Category = 'home';
-			$this->Title(T('Getting Started'));
-			$this->View = "gettingstarted";
-        }
+		} else { // no class was requested, default
+			Redirect('/info/getstarted');
+                }
 		$this->Head->Title($this->Head->Title());
 		if (self::$Category != 'home')
 			$this->View = ('browse');

@@ -13,11 +13,16 @@
 				} else {
 					$CSS = 'Depth';
 				}
-		if ($Name == 'default') {
+				if($Item->HasCategories == 1 && $Name != 'text') {
+					$CategoryCss = 'Categories';
+				} else {
+					$CategoryCss = 'Single';
+				}
+		if ($Name == 'default') { 
 			echo '<li'.($this->RequestMethod == '' ? ' class="Navigation Images '.$CSS.'"' : '').'>'
-					.'<a href="/info/home" class="TabButton">'.T('default').'</a>';
-
-			?><ul class="Sublist"><?
+					.'<a href="/info/home" class="TabLink '.$CategoryCss.'">'.T('default').'</a>';
+			if($Item->HasCategories == 1) {
+			?><div class="SubTab"><?
 			$Items = $this->GetCategories($Name);
 			foreach ($Items as $Item) {
 				if ($Item->Visible == '1') {
@@ -26,38 +31,38 @@
 					} else {
 						$CatCSS = 'Depth';
 					}
-					if ($Item->CategoryLabel != 'home' && $Name != 'designer')
-					echo '<li>'.Anchor(T($Item->CategoryLabel), '/info'.DS.$Item->CategoryLabel).'</li>';
+					echo Anchor(T($Item->CategoryLabel), '/info'.DS.$Item->CategoryLabel);
 				}
 			}
-			?><li class="ClearFix"></li>
-			</ul>
-	</li><?
+			?></div><?
+			}
+	?></li><?
 		} else {
 			echo '<li'.($this->RequestMethod == '' ? ' class="Navigation Images '.$CSS.'"' : '').'>'
-					.'<a href="/gallery/'.$Name.'" class="TabButton">'.T($Name).'</a>';
-
-			?><ul class="Sublist"><?
-			$Items = $this->GetCategories($Name);
-			foreach ($Items as $Item) {
-				if ($Item->Visible == '1') {
-					if ($Item->Label == $ActiveCategory) {
-						$CatCSS = 'Active';
-					} else {
-						$CatCSS = 'Depth';
+					.'<a href="/gallery/'.$Name.'" class="TabLink '.$CategoryCss.'">'.T($Name).'</a>';
+			if($Item->HasCategories == 1) {
+				?><div class="SubTab"><?
+				$Items = $this->GetCategories($Name);
+				foreach ($Items as $Item) {
+					if ($Item->Visible == '1') {
+						if ($Item->Label == $ActiveCategory) {
+							$CatCSS = 'Active';
+						} else {
+							$CatCSS = 'Depth';
+						}
+						echo Anchor(T($Item->CategoryLabel), 'gallery'.DS.$Name.DS.$Item->CategoryLabel);
 					}
-					if ($Item->CategoryLabel != 'home' && $Name != 'designer')
-					echo '<li>'.Anchor(T($Item->CategoryLabel), 'gallery'.DS.$Name.DS.$Item->CategoryLabel).'</li>';
 				}
-			}
-			?><li class="ClearFix"></li>
-			</ul><?
-		}}}
+				?></div><?
+                        }
+                }
+		}
+		} // end for each classes
     ?><li>
-		<a href="/designer"><? echo T('designer') ?></a>
-		<ul class="Sublist">
-			<li><a href="/designer/text/">Text</a></li>
-		</ul>
+		<a href="/designer" class="TabLink"><? echo T('designer') ?></a>
+		<div class="SubTab">
+			<a href="/designer/text/">Text</a>
+		</div>
 	</li>
 	</ul>
 </div>

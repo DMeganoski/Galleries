@@ -25,7 +25,7 @@ $Items = $this->GalleryItemModel->GetWhere(array('ClassLabel' => GalleryControll
         }?>
        </ul>
 		<div class="PriceLink">
-	  <a href="/gallery/default/pricing" class="BigButton">Price Guide</a>
+			<a href="/gallery/default/pricing" class="BigButton">Price Guide</a>
        </div>
     </div>
 </div>

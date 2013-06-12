@@ -45,9 +45,16 @@ img.FireEvent {
 #Panel li {
 	max-width: 250px;
 }
+div.Tabs a {
+    
+}
+div.Tabs ul.Sublist {
+    position: absolute;
+}
 a.Active, div.Tabs li.Active ul.Sublist li a {
 	background: url("/themes/TinsDirect/design/images/grey_in_40.png") repeat-x bottom #FFF;
 	color: #6C6C6C;
+        position: absolute;
 }
 a.Active, div.Tabs li.Active ul.Sublist li a:hover {
 	background: url("/themes/TinsDirect/design/images/grey_out_40.png") repeat-x top #FFF;
@@ -120,11 +127,24 @@ li.Image {
    position: relative;
 }
 img.Image {
-	margin: auto;
+    margin: auto;
     width: 120px;
     height: 120px;
-	position: relative;
-	vertical-align: bottom;
+    position: relative;
+    vertical-align: bottom;
+    z-index: 90;
+}
+li.Image span {
+    position: absolute;
+    top: 40px;
+    left: 5px;
+    width: 140px;
+    height: 70px;
+    color: #FFF;
+    font-weight: bold;
+    text-shadow: 0 0 5px #333;
+    padding: 3px;
+    z-index: 95;
 }
 div.Label {
    text-align: center;
@@ -301,53 +321,11 @@ div.Items embed {
 	z-index: 90;
 }
 /*--------------------Uploads Page -----------------*/
-
-div.HelpWrapper {
-	overflow: hidden;
-	width: 240px;
-	float: right;
-}
 form#uploadForm {
 	float: left;
-	width: 400px;
-	margin: 20px;
+	width: 380px;
+	margin: 10px;
 }
 .ie form#uploadForm {
-	width: 380px;
-}
-.Aside {
-	border: solid 1px #CCC;
-	background: #FBF7AA;
-	border-radius: 3px;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
-	box-shadow: 0 3px 3px #CCC;
-	-moz-box-shadow: 0 3px 3px #CCC;
-	-webkit-box-shadow: 0 3px 3px #CCC;
-	width: 200px;
-	float: right;
-	z-index: 90;
-	position: relative;
-	margin: 10px;
-}
-.Help {
-	padding: 8px;
-	line-height: 1;
-}
-.Help h2 {
-    font-size: 14px;
-    font-weight: bold;
-    margin: 0 0 10px;
-    text-shadow: none;
-	line-height: 1.6;
-	color:#6C6C6C;
-}
-li.Info {
-	margin: 10px;
-	width: 190px;
-	text-align: left;
-	line-height: 1.4em;
-	box-shadow: 0 3px 3px #CCCCCC;
-	-moz-box-shadow: 0 3px 3px #CCCCCC;
-	-webkit-box-shadow: 0 3px 3px #CCCCCC;
+	width: 360px;
 }

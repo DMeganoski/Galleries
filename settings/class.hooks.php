@@ -50,11 +50,11 @@ class GalleriesHooks implements Gdn_IPlugin {
     */
 	public function ProfileController_Uploads_Create(&$Sender, $params) {
 
-		$Sender->AddCssFile('/applications/galleries/design/gallery.css');
+		$Sender->AddCssFile('/applications/galleries/design/galleries.profile.css');
 		$Sender->UserID = ArrayValue(0, $Sender->RequestArgs, '');
 		$Sender->UserName = ArrayValue(1, $Sender->RequestArgs, '');
 		$UploadModel = new GalleryUploadModel();
-		if (Gdn::Session()->UserID == $Sender->UserID)
+		if (Gdn::Session()->UserID == $Sender->UserID && $UploadModel->GetCount(array('InsertUserID' => $Sender->UserID)) > 0)
 			$Sender->Uploads = $UploadModel->GetUploads('0', '', array('InsertUserID' => $Sender->UserID));
 		$Sender->GetUserInfo($Sender->UserID, $Sender->UserName);
 		$Sender->SetTabView('uploads', PATH_APPLICATIONS.DS.'galleries/views/profile'.DS.'uploads.php/', 'Profile', 'Dashboard');
@@ -108,14 +108,11 @@ class GalleriesHooks implements Gdn_IPlugin {
 			))) {
 
             include_once(PATH_APPLICATIONS.DS.'galleries'.DS.'modules'.DS.'class.galleryheadmodule.php');
-            include_once(PATH_APPLICATIONS.DS.'galleries'.DS.'modules'.DS.'class.gallerysidemodule.php');
-            include_once(PATH_APPLICATIONS.DS.'galleries'.DS.'modules'.DS.'class.gallerysidemodule.php');
 			$GuestModule = new GuestModule($Sender);
 			$GalleryHeadModule = new GalleryHeadModule($Sender);
 			$GallerySideModule = new GallerySideModule($Sender);
 			$Sender->AddModule($GuestModule);
 			$Sender->AddModule($GalleryHeadModule);
-            $Sender->AddModule($GallerySideModule);
             $Session = Gdn::Session();
 
         }

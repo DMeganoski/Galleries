@@ -14,34 +14,38 @@
 
 	// Define some global permissions.
 	$PermissionModel->Define(array(
-	'Gallery.Manage',
-	'Gallery.Items.Upload',
-	'Gallery.Items.Download',
-	'Gallery.Items.Manage',
-	'Gallery.Docs.Upload',
-	'Gallery.Docs.Download',
-	'Gallery.Docs.Manage'
-	//'Gallery.Comments.Manage'
+	'Galleries.Manage',
+	'Galleries.Items.Add',
+	'Galleries.Items.Download',
+	'Galleries.Items.Manage',
+	'Galleries.Uploads.Add',
+	'Galleries.Uploads.Overwite',
+	'Galleries.Docs.Add',
+	'Galleries.Docs.Download',
+	'Galleries.Docs.Manage'
+	//'Galleries.Comments.Manage'
 	));
 
    if (isset($PermissionTableExists) && $PermissionTableExists) {
    // Set the intial member permissions.
    $PermissionModel->Save(array(
       'RoleID' => 8,
-      'Gallery.Items.Upload' => 1,
-      'Gallery.Docs.Download' => 1
+      'Galleries.Uploads.Add' => 1,
+      'Galleries.Docs.Download' => 1
       ));
 
         // Set the initial administrator permissions.
 	$PermissionModel->Save(array(
 		'RoleID' => 16,
-        'Gallery.Items.Upload' => 1,
-		'Gallery.Items.Download' => 1,
-        'Gallery.Items.Manage' => 1,
-		'Gallery.Docs.Upload' => 1,
-		'Gallery.Docs.Download' => 1,
-		'Gallery.Docs.Manage' => 1,
-        'Gallery.Manage' => 1,
+		'Galleries.Manage' => 1,
+        'Galleries.Items.Upload' => 1,
+		'Galleries.Items.Download' => 1,
+        'Galleries.Items.Manage' => 1,
+		'Galleries.Uploads.Add' => 1,
+		'Galleries.Uploads.Overwite'=> 1,
+		'Galleries.Docs.Add' => 1,
+		'Galleries.Docs.Download' => 1,
+		'Galleries.Docs.Manage' => 1,
          //'Gallery.Comments.Manage' => 1
          ));
    }

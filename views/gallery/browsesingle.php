@@ -4,7 +4,7 @@ $Items = $this->GalleryItemModel->GetWhere(array('ClassLabel' => GalleryControll
 $ClassSingle = substr(GalleryController::$Class, 0, (strlen(GalleryController::$Class) - 1));
 ?><div id="Custom">
    <div class="PageHeading">
-      <h1>Choose your <? echo T($ClassSingle) ?> below</h1>
+      <h1 class="PageHeading">Choose your <? echo T($ClassSingle) ?> below</h1>
    </div>
 <?php
     ?><div id="Choices" class="Home Gallery Tins">

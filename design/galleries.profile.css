@@ -1,0 +1,12 @@
+h3.NoUploads {
+	margin: 50px 30px 50px 0px;
+}
+div#Custom {
+	position: relative;
+	overflow: hidden;
+}
+img.ArrowUp {
+	position: absolute;
+	right: 10px;
+	top: 40px;
+}

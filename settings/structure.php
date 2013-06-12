@@ -78,29 +78,40 @@ include_once(PATH_APPLICATIONS.DS.'galleries/customfiles/categoryconfig.php');
 
 	// Define some global permissions.
 	$PermissionModel->Define(array(
-	'Gallery.Items.Manage',
-	'Gallery.Items.Upload',
-	'Gallery.Docs.Download',
-	'Gallery.Docs.Manage'
-	//'Gallery.Comments.Manage'
+	'Galleries.Manage',
+	'Galleries.Items.Add',
+	'Galleries.Items.Download',
+	'Galleries.Items.Manage',
+	'Galleries.Uploads.Add',
+	'Galleries.Uploads.Overwite',
+	'Galleries.Docs.Add',
+	'Galleries.Docs.Download',
+	'Galleries.Docs.Manage'
+	//'Galleries.Comments.Manage'
 	));
-
+	
    // Set the intial member permissions.
    $PermissionModel->Save(array(
       'RoleID' => 8,
-	'Gallery.Items.Upload' => 1,
-	'Gallery.Docs.Download' => 1,
+      'Galleries.Uploads.Add' => 1,
+      'Galleries.Docs.Download' => 1
       ));
 
         // Set the initial administrator permissions.
 	$PermissionModel->Save(array(
 		'RoleID' => 16,
-	'Gallery.Items.Upload' => 1,
-	'Gallery.Items.Manage' => 1,
-	'Gallery.Docs.Download' => 1,
-	'Gallery.Docs.Manage' => 1
+		'Galleries.Manage' => 1,
+        'Galleries.Items.Upload' => 1,
+		'Galleries.Items.Download' => 1,
+        'Galleries.Items.Manage' => 1,
+		'Galleries.Uploads.Add' => 1,
+		'Galleries.Uploads.Overwite'=> 1,
+		'Galleries.Docs.Add' => 1,
+		'Galleries.Docs.Download' => 1,
+		'Galleries.Docs.Manage' => 1,
          //'Gallery.Comments.Manage' => 1
          ));
+
 
 // Make sure that User.Permissions is blank so new permissions for users get applied.
 //$SQL->Update('User', array('Permissions' => ''))->Put(); // done in PermissionModel::Save()

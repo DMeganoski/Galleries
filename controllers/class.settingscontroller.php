@@ -26,7 +26,7 @@ class SettingsController extends Gdn_Controller {
     */
 	public function Advanced() {
 	   // Check permission
-      $this->Permission('Gallery.Items.Manage');
+      $this->Permission('Galleries.Items.Manage');
 
 		// Load up config options we'll be setting
 		$Validation = new Gdn_Validation();
@@ -364,7 +364,7 @@ class SettingsController extends Gdn_Controller {
     */
 	public function ManageCategories() {
 		// Check permission
-		$this->Permission('Gallery.Items.Manage');
+		$this->Permission('Galleries.Items.Manage');
 		$this->PrepareController();
 
 		// Set up head
@@ -420,7 +420,7 @@ class SettingsController extends Gdn_Controller {
     */
    public function SortCategories() {
       // Check permission
-      $this->Permission('Vanilla.Categories.Manage');
+      $this->Permission('Galleries.Categories.Manage');
 
       // Set delivery type to true/false
       $this->_DeliveryType = DELIVERY_TYPE_BOOL;

@@ -17,5 +17,9 @@ $(document).ready(function() {
 			}
 		};
 	}
-	$("li.Navigation").click(toggle("Down", "none"), toggle("Up", "block"));
+	//$("li.Navigation").click(toggle("Down", "none"), toggle("Up", "block"));
+	$("li.Navigation a.Categories").click(function(event) {
+		event.preventDefault();
+		$(this).next('ul').slideToggle();
+	})
 });

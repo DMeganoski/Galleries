@@ -6,7 +6,7 @@ $FileInfo = $this->FileData;
 ?>
 <div id="Custom">
 	<div class="Large Picture">
-		<div class="Heading">
+		<div class="PageHeading">
 			<h1><?php echo $FileInfo->Name.' ('.$FileInfo->Slug.')'; ?></h1>
 			<h2>Click the button below to add this <? echo T(substr($FileInfo->ClassLabel, 0, -1))?> to your project</h2>
 		</div>

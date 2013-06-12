@@ -50,6 +50,7 @@ table.Categories td{
 table.GalleryClass th,
 table.Categories th {
 	padding: 0px;
+	cursor: pointer;
 }
 #Content table.Categories h1,
 #Content table.Categories h3,

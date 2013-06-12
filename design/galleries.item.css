@@ -1,0 +1,22 @@
+/*
+    Document   : galleries.item
+    Created on : Nov 4, 2011, 10:55:08 AM
+    Author     : ZodiacDM
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+/*
+   TODO customize this sample style
+   Syntax recommendation http://www.w3.org/TR/REC-CSS2/
+*/
+
+root {
+    display: block;
+}
+body.Upload form#Form_Form {
+	float: left;
+}
+ul.GalleryUploadForm li {
+	border: 1px solid #CCC;
+}

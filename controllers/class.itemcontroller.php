@@ -51,9 +51,11 @@ class ItemController extends GalleriesController {
 		$this->AddJsFile('loader.js');
 		$this->AddCssFile('gallery.css');
 		$this->AddCssFile('styles.css');
-		$this->AddJsFile('jquery.event.drag.js');
+		//$this->AddJsFile('jquery.event.drag.js');
 		$this->AddJsFile('/applications/projects/js/projectsshared.js');
-		$this->AddJsFile('jquery.lightbox-0.5.pack.js');
+		//$this->AddJsFile('jquery.lightbox-0.5.pack.js');
+
+		$this->AddCssFile('galleries.item.css');
 
         //$GalleryHeadModule->GetData();
 
@@ -106,9 +108,9 @@ class ItemController extends GalleriesController {
 		$this->PrepareController();
 		$this->AddModule('GalleryHeadModule');
 		$this->AddModule('GallerySideModule');
-		$this->Permission('Gallery.Items.Upload');
+		$this->Permission('Galleries.Items.Manage');
         if ($Item->InsertUserID != $Session->UserID) {
-            $this->Permission('Gallery.Manage');
+            $this->Permission('Galleries.Manage');
 		}
 		$Item = $this->GalleryItemModel->GetSlug($ItemSlug);
         $this->AddJsFile('/js/library/jquery.autogrow.js');
@@ -153,7 +155,7 @@ class ItemController extends GalleriesController {
     * @param type $ItemKey
     */
 	public function Delete($ItemKey = '') {
-      $this->Permission('Gallery.Items.Manage');
+      $this->Permission('Galleries.Items.Manage');
       $Session = Gdn::Session();
       if (!$Session->IsValid())
          $this->Form->AddError('You must be authenticated in order to use this form.');
@@ -163,7 +165,7 @@ class ItemController extends GalleriesController {
          Redirect('dashboard/home/filenotfound');
 
       if ($Session->UserID != $Item['InsertUserID'])
-			$this->Permission('Gallery.Items.Manage');
+			$this->Permission('Galleries.Items.Manage');
 
       $Session = Gdn::Session();
       if (is_numeric($ItemKey))
@@ -176,12 +178,55 @@ class ItemController extends GalleriesController {
       $this->Render();
    }
 
+   public function Upload() {
+	   $this->PrepareController();
+	   if (!is_dir('uploads/submitted')) mkdir('uploads/submitted', 0777, True);
+
+		$this->Permission('Galleries.Uploads.Add');
+		if (!property_exists($this, 'Form')) $this->Form = Gdn::Factory('Form');
+
+		$this->AddJsFile('jquery.livequery.js');
+		$this->AddJsFile('jquery.autogrow.js');
+		$this->AddJsFile('loadup.js');
+		$Session = Gdn::Session();
+		$UserID = $Session->UserID;
+		$this->Form->AddHidden('UserID', $UserID);
+		$TransientKey = $Session->TransientKey();
+		$this->Form->AddHidden('TransientKey', $TransientKey);
+
+		if ($this->Form->AuthenticatedPostBack() != False) {
+			$FormValues = $this->Form->FormValues();
+			$Path = PATH_ROOT.DS.'uploads/submitted'.$UserID;
+			$UploadTo = 'uploads/submitted/'.$UserID;
+			$bOverwrite = $this->Form->GetFormValue('Overwrite') && $Session->CheckPermission('Galleries.Uploads.Overwrite', FALSE);
+			$Options = array('Overwrite' => $bOverwrite, 'WebTarget' => True);
+			$UploadedFiles = UploadFile($UploadTo, 'Files', $Options);
+			$this->Form->SetFormValue('RawData', implode("\n", $UploadedFiles));
+			$this->Form->SetFormValue('AbsoluteURL', 1);
+			$Files = $FormValues['Files'];
+			foreach($UploadedFiles as $File) {
+				$FileParts = pathinfo($File);
+				$Thumb = self::ImageResize(PATH_ROOT.DS.$File, PATH_ROOT.DS.$UploadTo.DS.$FileParts['filename'].'-Thumb.jpg', 100, 100, 0);
+				$this->GalleryUploadModel->Insert('GalleryUpload', array(
+					'FileName' => $FileParts['basename'],
+					'Thumbnail' => $Thumb,
+					'InsertUserID' => $UserID
+				));
+			}
+			Redirect('/profile/uploads/'.$Session->UserID.DS.$Session->User->Name);
+		}
+
+		$this->UploadTo = array('uploads/tmp' => 'uploads/tmp');
+		$this->Title(T('Upload File'));
+		$this->Render();
+   }
+
 	/*
 	 * Render function for upload page
 	 */
-	public function Upload($Args) {
+	public function Uploadify($Args) {
 
-		$this->Permission('Gallery.Items.Upload');
+		$this->Permission('Galleries.Uploads.Add');
 
 		$this->AddModule('GalleryHeadModule');
 		$this->AddModule('GallerySideModule');
@@ -211,7 +256,7 @@ class ItemController extends GalleriesController {
 	$this->AddModule('GallerySideModule');
 	//GalleryController::$Class = 'item';
 	//GalleryController::$Category = 'home';
-	$this->Permission('Gallery.Manage');
+	$this->Permission('Galleries.Manage');
 
 	$this->Form = new Gdn_Form();
 	$Validation = new Gdn_Validation();
@@ -257,109 +302,6 @@ class ItemController extends GalleriesController {
       }
 
 /*----------------------------------------- Upload and Scan Helper Functions ------------------*/
-
-	/*
-	 * Script for the Uploader to run after sucessful upload
-	 * Saves file to server and creates thumbnail
-	 */
-	public function Uploadify() {
-
-		$targetFolder = '/uploads'; // Relative to the root
-
-		if (!empty($_FILES)) {
-			$tempFile = $_FILES['Filedata']['tmp_name'];
-
-			$targetPath = $_SERVER['DOCUMENT_ROOT'] . $targetFolder . '/';
-			$returnFile = $_FILES['Filedata']['name'];
-
-			$file = $_FILES['Filedata']['name'];
-			$file = utf8_decode($file);
-			$file = ereg_replace("[^a-zA-Z0-9_.-\[\]()]", "", strtr($file, "()����������������������������������������������% ", "[]aaaaaeeeeiiiiooooouuuucAAAAAEEEEIIIIOOOOOUUUUC__"));
-			$file = strtolower($file);
-
-			$aux_targetFile = str_replace('//','/',$targetPath);
-			$targetFile = str_replace('//','/',$targetPath) . $file;
-			$GoodFile = $targetFile;
-			if(file_exists($targetFile)) {
-				// while file exists
-				while ($ok != true) {
-					if(file_exists($targetFile)) {
-						$ok = false;
-						$rand = rand(1000, 9999);
-						$targetFile = $aux_targetFile . $rand . '_' . $file;
-					} else {
-						$ok = true;
-						$file = $rand . '_' . $file;
-					}
-				}
-			}
-			$fileParts = pathinfo($targetFile);
-			$Resized = self::ImageResize($GoodFile, $targetPath.$fileParts['filename'].'-Thumb.jpg', 100, 100, 0);
-			$Thumb = $Resized;
-			$Count = $this->GalleryItemModel->GetCount(array('FileName'=> $fileParts['basename']));
-			// Now the same call produces a zero instead...
-			if ($Count > 0) {
-				$this->GalleryItemModel->Update('GalleryUpload', array(
-					'FileName' => $fileParts['basename'],
-					'Thumbnail' => $Thumb
-				), array('FileName' => $fileParts['basename']));
-			} else {
-				$this->GalleryItemModel->Insert('GalleryUpload', array(
-					'FileName' => $fileParts['basename'],
-					'Thumbnail' => $Thumb
-				));
-			}
-	move_uploaded_file($tempFile,$targetFile);
-
-	echo "$file";
-	}
-}
-
-	/*
-	 * Function called on submit of the upload form
-	 * @ Params $_REQUEST
-	 */
-	public function UploadifySavePost() {
-
-		$Request = Gdn::Request();
-		$Description = $Request->Post('Description');
-		$UserID = $Request->Post('UserID');
-		$TransientKey = $Request->Post('TransientKey');
-		$numImgs = $Request->Post('numImgs');
-		$UserModel = new UserModel();
-		$User = $UserModel->GetSession($UserID);
-		if ($User->Attributes['TransientKey'] == $TransientKey) {
-
-			$ActivityModel = new ActivityModel();
-			$ActivityModel->ClearNotificationQueue();
-
-			for ($i = 0; $i <= $numImgs; $i++) {
-				$img[$i] = $Request->Post('img'.$i);
-			}
-			foreach ($img as $ImageName) {
-				$this->GalleryUploadModel->Update('GalleryUpload', array(
-					'FileName' => $ImageName,
-					'InsertUserID' => $UserID,
-					'Description' => $Description,
-				), array('FileName' => $ImageName));
-			}
-		}
-
-	Redirect('/item/upload');
-	}
-
-	/*
-	 * Function to determine whether the upload exists already or not.
-	 */
-	public function UploadifyCheckExists() {
-		if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/uploads/' . $_POST['filename'])) {
-			echo 1;
-		} else {
-			echo 0;
-		}
-	}
-
-
 
 	/*
 	 * Function for storing individual files found on the server into the database
@@ -461,7 +403,7 @@ class ItemController extends GalleriesController {
 			$FileParts = pathinfo($FileName);
 			$BaseName = $FileParts['filename'];
 			$HTML .= '<li class="UploadData" uploadid="'.$File->UploadKey.'">';
-			$HTML .= '<img src="/uploads/'.$BaseName.'-Thumb.jpg" class="Thumb"></img>';
+			$HTML .= '<img src="/uploads/submitted/'.$UserID.DS.$BaseName.'-Thumb.jpg" class="Thumb"></img>';
 			$HTML .= '<br/>';
 			$HTML .= '<strong>'.$FileLabel.'</strong>';
 			$HTML .= '</br>';
